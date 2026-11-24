@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Asset Financial Market Volatility Rise Analysis</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><span class="logo">&#9650;</span><span>Multi-Asset Financial Market<br><b>Volatility Rise Analysis</b></span></div>
+    <button class="btn ghost" id="btnReset">Reset</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <ol class="steps" aria-label="Workflow">
+    <li class="step" data-s="1">Select or upload</li>
+    <li class="step" data-s="2">Preview data</li>
+    <li class="step" data-s="3">Click analyze</li>
+    <li class="step" data-s="4">View results &amp; download</li>
+  </ol>
+
+  <div id="alert" class="alert" role="alert" hidden></div>
+
+  <!-- HOME -->
+  <section id="home">
+    <div class="intro">
+      <h1>Analyze market volatility from your data</h1>
+      <p>Pick a built-in sample dataset or upload your own CSV / Excel file. The tool calculates price statistics, volatility and a LOW / MEDIUM / HIGH risk level directly from the data you choose.</p>
+    </div>
+    <div class="grid2">
+      <div class="card">
+        <h2>1. Select Sample Dataset</h2>
+        <p class="muted">Built-in <b>sample data</b> (simulated, 180 daily records each). These are not real-time market data.</p>
+        <div id="sampleList" class="samples"></div>
+      </div>
+      <div class="card">
+        <h2>2. Upload Your Own Dataset</h2>
+        <p class="muted">CSV, XLSX or XLS. Needs a numeric price column (e.g. Close, Price). A Date column is optional.</p>
+        <div id="drop" class="drop" tabindex="0">
+          <div class="drop-icon">&#8679;</div>
+          <p><b>Drag &amp; drop</b> your file here</p>
+          <p class="muted">or</p>
+          <button class="btn" id="btnBrowse" type="button">Choose File</button>
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" hidden>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW -->
+  <section id="preview" hidden>
+    <div class="card">
+      <div class="row between">
+        <div>
+          <h2 id="pvTitle">Data preview</h2>
+          <p class="muted" id="pvMeta"></p>
+        </div>
+        <span class="tag" id="pvTag"></span>
+      </div>
+      <div class="row gap">
+        <label for="priceCol"><b>Price column to analyze:</b></label>
+        <select id="priceCol"></select>
+      </div>
+      <div class="table-wrap"><table id="pvTable"></table></div>
+      <p class="muted small" id="pvNote"></p>
+      <div class="row gap wrapbtn">
+        <button class="btn primary big" id="btnAnalyze">Analyze Dataset</button>
+        <button class="btn" id="btnUploadOther1">Upload Another Dataset</button>
+        <button class="btn" id="btnAnalyzeOther1">Analyze Another Dataset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" hidden>
+    <div class="card">
+      <div class="row between wrapbtn">
+        <div>
+          <h2 id="rsTitle">Analysis results</h2>
+          <p class="muted" id="rsMeta"></p>
+        </div>
+        <div id="riskBadge" class="badge"></div>
+      </div>
+      <div id="stats" class="stats"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card"><h3>Price trend (line)</h3><div class="chart"><canvas id="c1"></canvas></div></div>
+      <div class="card"><h3>Rolling volatility (line)</h3><div class="chart"><canvas id="c2"></canvas></div></div>
+      <div class="card"><h3>Daily price change % (bar)</h3><div class="chart"><canvas id="c3"></canvas></div></div>
+      <div class="card"><h3>Volatility comparison across periods (bar)</h3><div class="chart"><canvas id="c4"></canvas></div></div>
+    </div>
+    <div class="card"><h3>Volatility compared with the sample assets (bar)</h3><div class="chart short"><canvas id="c5"></canvas></div></div>
+
+    <div class="card">
+      <h3>Risk classification</h3>
+      <div class="levels">
+        <div class="lvl low"><b>LOW</b><span>volatility below 1%</span></div>
+        <div class="lvl medium"><b>MEDIUM</b><span>volatility 1% to 2.5%</span></div>
+        <div class="lvl high"><b>HIGH</b><span>volatility above 2.5%</span></div>
+      </div>
+      <p class="muted small">Volatility = standard deviation of the percentage change between consecutive records.</p>
+    </div>
+
+    <div class="card">
+      <h3>What do these results mean?</h3>
+      <div id="explain" class="explain"></div>
+    </div>
+
+    <div class="card">
+      <h3>Export &amp; next steps</h3>
+      <div class="row gap wrapbtn">
+        <button class="btn primary" id="btnPdf">Download PDF Report</button>
+        <button class="btn primary" id="btnCsv">Download CSV Report</button>
+        <button class="btn" id="btnUploadOther2">Upload Another Dataset</button>
+        <button class="btn" id="btnAnalyzeOther2">Analyze Another Dataset</button>
+        <button class="btn ghost" id="btnReset2">Reset</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">Built-in datasets are simulated <b>sample data</b>, not real-time market data. For education and demonstration only &mdash; not financial advice.</div>
+</footer>
+
+<script src="lib/chart.umd.js"></script>
+<script src="lib/xlsx.full.min.js"></script>
+<script src="lib/jspdf.umd.min.js"></script>
+<script src="js/samples.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
